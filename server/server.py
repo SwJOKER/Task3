@@ -1,26 +1,34 @@
 import threading
 from flask import Flask
 import hashlib
+import logging
 
 # My typical setup for a Flask App.
 # ./media is a folder that holds my JS, Imgs, CSS, etc.
 app1 = Flask(__name__)
 app2 = Flask(__name__)
 names = dict()
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 
 @app1.route('/<username>')
 def index1(username):
-    md5 = hashlib.md5("whatever your string is".encode('utf-8')).hexdigest()
+    md5 = hashlib.md5(username.encode('utf-8')).hexdigest()
     names[md5] = username
     return md5
 
 
 @app2.route('/<md5>/<name>/<message>')
 def index2(md5, name, message):
+    logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, filename='log.log')
     try:
-        return 'hi '+names[md5]
+        if (name == names[md5]):
+            return f'Имя: {names[md5]} md5: {md5} Сообщение:{message}'
+        else:
+            raise Exception
     except:
-        return 'Не верный идентификатор'
+        return 'Неверный идентификатор'
 
 
 def runFlaskApp1():
