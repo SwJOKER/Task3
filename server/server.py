@@ -24,6 +24,7 @@ def index2(md5, name, message):
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, filename='log.log')
     try:
         if (name == names[md5]):
+            logging.info(f'Имя: {names[md5]} md5: {md5} Сообщение:{message}')
             return f'Имя: {names[md5]} md5: {md5} Сообщение:{message}'
         else:
             raise Exception
