@@ -3,8 +3,6 @@ from flask import Flask
 import hashlib
 import logging
 
-# My typical setup for a Flask App.
-# ./media is a folder that holds my JS, Imgs, CSS, etc.
 app1 = Flask(__name__)
 app2 = Flask(__name__)
 names = dict()
