@@ -2,6 +2,7 @@ import threading
 from flask import Flask
 import hashlib
 import logging
+import uuid
 
 app1 = Flask(__name__)
 app2 = Flask(__name__)
@@ -12,18 +13,19 @@ log.setLevel(logging.ERROR)
 
 @app1.route('/<username>')
 def index1(username):
-    md5 = hashlib.md5(username.encode('utf-8')).hexdigest()
-    names[md5] = username
-    return md5
+    #md5 = hashlib.md5(username.encode('utf-8')).hexdigest()
+    user_uuid = str(uuid.uuid4())
+    names[user_uuid] = username
+    return user_uuid
 
 
-@app2.route('/<md5>/<name>/<message>')
-def index2(md5, name, message):
+@app2.route('/<uuid>/<name>/<message>')
+def index2(uuid, name, message):
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, filename='log.log')
     try:
-        if (name == names[md5]):
-            logging.info(f'Имя: {names[md5]} md5: {md5} Сообщение:{message}')
-            return f'Имя: {names[md5]} md5: {md5} Сообщение:{message}'
+        if (name == names[uuid]):
+            logging.info(f'Имя: {names[uuid]} uuid: {uuid} Сообщение:{message}')
+            return f'Имя: {names[uuid]} uuid: {uuid} Сообщение:{message}'
         else:
             raise Exception
     except:
