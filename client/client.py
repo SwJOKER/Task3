@@ -3,6 +3,7 @@ import threading
 
 import requests
 
+SERVER_IP = '127.0.0.1'
 MSG = 'Minion\'s message'
 
 
@@ -10,10 +11,10 @@ MSG = 'Minion\'s message'
 def client_connect(ID):
    try:
       name = ID
-      first_request = requests.get(f'http://127.0.0.1:8000/{name}')
+      first_request = requests.get(f'http://{SERVER_IP}:8000/{name}')
       uuid = first_request.text
       message = MSG
-      second_request = requests.get(f'http://127.0.0.1:8001/{uuid}/{name}/{message}')
+      second_request = requests.get(f'http://{SERVER_IP}:8001/{uuid}/{name}/{message}')
       print(second_request.text)
    except:
       logging.error('Something went wrong')
