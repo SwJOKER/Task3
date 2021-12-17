@@ -7,7 +7,7 @@ MSG = 'Minion\'s message'
 
 def post_connect(ID):
    try:
-      first_request = requests.post(f'http://{SERVER_IP}:800/', json={"id": ID})
+      first_request = requests.post(f'http://{SERVER_IP}:8000/', json={"id": ID})
       uuid = first_request.text
       second_request = requests.post(f'http://{SERVER_IP}:8001/', json={'id': ID, 'uuid':uuid, 'message': MSG})
       print(second_request.text)
