@@ -29,7 +29,7 @@ def fetch_message():
         id = answer['id']
         uuid = answer['uuid']
         message = answer['message']
-        if(id == names[uuid]):
+        if id == names[uuid]:
             logging.info(f'Name: {names[uuid]} uuid: {uuid} Message:{message}')
             return f'Name: {names[uuid]} uuid: {uuid} Message:{message}'
     except:
