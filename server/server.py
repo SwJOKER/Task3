@@ -19,7 +19,7 @@ def fetch_id():
         names[user_uuid] = request.get_json()['id']
         return user_uuid
     except:
-        return 403
+        return None, 403
 
 @app2.route('/', methods=['POST'])
 def fetch_message():
@@ -33,7 +33,7 @@ def fetch_message():
             logging.info(f'Name: {names[uuid]} uuid: {uuid} Message:{message}')
             return f'Name: {names[uuid]} uuid: {uuid} Message:{message}'
     except:
-        return 403
+        return None, 403
 
 
 def runFlaskApp1():
