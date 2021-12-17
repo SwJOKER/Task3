@@ -6,6 +6,7 @@ import uuid
 app1 = Flask(__name__)
 app2 = Flask(__name__)
 HOST_IP = '127.0.0.1'
+LOG_PATH = 'log.log'
 names = dict()
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
@@ -22,7 +23,7 @@ def fetch_id():
 
 @app2.route('/', methods=['POST'])
 def fetch_message():
-    logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, filename='log.log')
+    logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, filename=LOG_PATH)
     try:
         answer = request.get_json()
         id = answer['id']
