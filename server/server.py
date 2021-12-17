@@ -1,5 +1,5 @@
 import threading
-from flask import Flask
+from flask import Flask, request
 #import hashlib
 import logging
 import uuid
@@ -12,25 +12,28 @@ log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
 
+@app1.route('/', methods=['POST'])
+def fetch_id():
+    try:
+        user_uuid = str(uuid.uuid4())
+        names[user_uuid] = request.get_json()['id']
+        return user_uuid
+    except:
+        return 403
 
-@app1.route('/<username>')
-def index1(username):
-    user_uuid = str(uuid.uuid4())
-    names[user_uuid] = username
-    return user_uuid
-
-
-@app2.route('/<uuid>/<name>/<message>')
-def index2(uuid, name, message):
+@app2.route('/', methods=['POST'])
+def fetch_message():
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, filename='log.log')
     try:
-        if (name == names[uuid]):
+        answer = request.get_json()
+        id = answer['id']
+        uuid = answer['uuid']
+        message = answer['message']
+        if(id == names[uuid]):
             logging.info(f'Name: {names[uuid]} uuid: {uuid} Message:{message}')
             return f'Name: {names[uuid]} uuid: {uuid} Message:{message}'
-        else:
-            raise Exception
     except:
-        return 'Wrong pair ID-uuid'
+        return 403
 
 
 def runFlaskApp1():

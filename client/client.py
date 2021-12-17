@@ -1,24 +1,19 @@
 import logging
 import threading
-
 import requests
 
 SERVER_IP = '127.0.0.1'
 MSG = 'Minion\'s message'
 
-
-
-def client_connect(ID):
+def post_connect(ID):
    try:
-      name = ID
-      first_request = requests.get(f'http://{SERVER_IP}:8000/{name}')
+      first_request = requests.post(f'http://{SERVER_IP}:800/', json={"id": ID})
       uuid = first_request.text
-      message = MSG
-      second_request = requests.get(f'http://{SERVER_IP}:8001/{uuid}/{name}/{message}')
+      second_request = requests.post(f'http://{SERVER_IP}:8001/', json={'id': ID, 'uuid':uuid, 'message': MSG})
       print(second_request.text)
    except:
       logging.error('Something went wrong')
 
 if __name__ == '__main__':
    for i in range(50):
-      threading.Thread(target=client_connect(f'Nick{i}'))
+      threading.Thread(target=post_connect(f'Nick{i}'))
