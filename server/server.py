@@ -1,5 +1,5 @@
 import threading
-from flask import Flask, request
+from flask import Flask, request, abort
 import logging
 import uuid
 
@@ -19,7 +19,7 @@ def fetch_id():
         names[user_uuid] = request.get_json()['id']
         return user_uuid
     except:
-        return None, 403
+        abort(400)
 
 @app2.route('/', methods=['POST'])
 def fetch_message():
@@ -33,7 +33,7 @@ def fetch_message():
             logging.info(f'Name: {names[uuid]} uuid: {uuid} Message:{message}')
             return f'Name: {names[uuid]} uuid: {uuid} Message:{message}'
     except:
-        return None, 403
+        abort(400)
 
 
 def runFlaskApp1():
